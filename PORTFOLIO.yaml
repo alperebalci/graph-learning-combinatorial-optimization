@@ -1,0 +1,17 @@
+schema_version: 1
+repository: graph-learning-combinatorial-optimization
+role: umbrella
+axis: methodology
+area: graph-learning-combinatorial-optimization
+status: active
+owner: jorsacademy
+projects:
+  - gflownet-combinatorial-optimization
+  - gnn-minimum-vertex-cover
+  - graph-attention-network-cora
+  - graphsage-cora-node-classification
+  - neural-algorithmic-reasoning-combinatorial-optimization
+conventions:
+  provenance_records: true
+  reproducibility_expected: true
+  benchmark_assumptions_documented: true
