@@ -8,7 +8,12 @@ import torch
 from torch import nn
 
 from .dataset import TSPExample
-from .model import EdgeGNN, GraphSAGEEdgeBaseline
+from .model import (
+    EdgeGNN,
+    GINEdgeBaseline,
+    GraphSAGEEdgeBaseline,
+    PNAEdgeBaseline,
+)
 
 
 @dataclass(frozen=True)
@@ -28,6 +33,18 @@ def build_model(config: TrainConfig) -> nn.Module:
         return EdgeGNN(hidden_dim=config.hidden_dim, layers=config.layers)
     if config.architecture == "graphsage":
         return GraphSAGEEdgeBaseline(
+            hidden_dim=config.hidden_dim,
+            layers=config.layers,
+            k_neighbors=config.k_neighbors,
+        )
+    if config.architecture == "gin":
+        return GINEdgeBaseline(
+            hidden_dim=config.hidden_dim,
+            layers=config.layers,
+            k_neighbors=config.k_neighbors,
+        )
+    if config.architecture == "pna":
+        return PNAEdgeBaseline(
             hidden_dim=config.hidden_dim,
             layers=config.layers,
             k_neighbors=config.k_neighbors,

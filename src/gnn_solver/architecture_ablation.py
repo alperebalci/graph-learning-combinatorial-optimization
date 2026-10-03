@@ -87,6 +87,7 @@ def select_model(
         "selected_seed": candidates[0][1],
         "validation_gap_pct": candidates[0][0],
         "final_training_loss": candidates[0][3],
+        "parameter_count": sum(p.numel() for p in candidates[0][2].parameters()),
         "all_validation_gaps": {seed: gap for gap, seed, _, _ in candidates},
     }
 
@@ -188,13 +189,14 @@ def main() -> None:
             epochs=12,
             beam_width=6,
         )
-        for architecture in ("edge_gnn", "graphsage")
+        for architecture in ("edge_gnn", "graphsage", "gin", "pna")
     }
 
     for name, selection in selections.items():
         print(
             f"{name}: selected_seed={selection['selected_seed']}, "
-            f"validation_gap={selection['validation_gap_pct']:.4f}%"
+            f"validation_gap={selection['validation_gap_pct']:.4f}%, "
+            f"parameters={selection['parameter_count']}"
         )
 
     rows: list[ArchitectureResult] = []
