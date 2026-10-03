@@ -26,7 +26,7 @@ Can a graph neural model learn structural information from exact small-instance 
 
 **Phase 3 implemented: multi-seed statistical evaluation + deeper OOD size shift + latency decomposition.**
 
-A controlled **GraphSAGE architecture ablation** is also included to test whether edge-aware message passing materially improves downstream TSP decisions relative to node-only neighborhood aggregation.
+A controlled **GNN architecture ablation** is also included: the primary edge-aware model is compared with GraphSAGE-, GIN- and PNA-style node encoders under the same TSP training, decoding and OOD protocol.
 
 The repository now includes:
 
@@ -77,11 +77,11 @@ A negative paired gap difference favors the GNN method. Statistical significance
 
 ## Architecture ablation
 
-`python -m gnn_solver.architecture_ablation` compares the primary edge-aware `EdgeGNN` against a GraphSAGE-style baseline under matched training data, exact labels, model seeds, validation selection, decoder, 2-opt refinement and test/OOD blocks.
+`python -m gnn_solver.architecture_ablation` compares the primary edge-aware `EdgeGNN` with GraphSAGE-, GIN- and PNA-style baselines under matched training data, exact labels, model seeds, validation selection, decoder, 2-opt refinement and test/OOD blocks.
 
-The GraphSAGE baseline uses k-nearest-neighbor mean aggregation over node states and exposes pairwise distance only when constructing the neighborhood and scoring final candidate edges. It therefore tests whether injecting edge features directly into learned messages provides downstream decision value.
+The node-only baselines use sparse k-nearest-neighbor structure with different aggregation biases while pairwise distance remains available for neighborhood construction and final edge scoring. The experiment also reports parameter counts so PNA's extra capacity is visible. GraphSAINT is deliberately excluded here because these tiny exact-label graphs do not have a sampling bottleneck.
 
-See [`docs/graphsage_ablation.md`](./docs/graphsage_ablation.md) for the controlled experimental contract.
+See [`docs/graphsage_ablation.md`](./docs/graphsage_ablation.md) for the controlled experimental contract and the GraphSAINT scope rationale.
 
 ## Latency decomposition
 
@@ -159,7 +159,7 @@ Reuse the graph-learning stack on capacitated vehicle routing with explicit dema
 
 ## Scope boundary
 
-The TSP benchmark is now complete enough to serve as the controlled methodology layer. The GraphSAGE contribution is retained only as an architecture ablation; generic Cora node-classification and embedding-visualization tutorials are intentionally out of scope. Large-scale VRP, learned branching, neural cut selection and scheduling graphs should be separate extensions rather than silent additions to the TSP benchmark.
+The TSP benchmark is now complete enough to serve as the controlled methodology layer. GraphSAGE, GIN and PNA are retained only as controlled architecture ablations; generic node-classification and embedding-visualization tutorials are intentionally out of scope. Large-scale VRP, learned branching, neural cut selection and scheduling graphs should be separate extensions rather than silent additions to the TSP benchmark.
 
 ## License
 
